@@ -13,18 +13,22 @@ dependencies:
     sdk: flutter
 
   build_runner: ^2.4.8
+  cached_network_image: ^3.3.1
+  connectivity_plus: ^5.0.2
   cupertino_icons: ^1.0.6
   dio: ^5.4.1
   equatable: ^2.0.5
   flutter_bloc: ^8.1.4
   get_it: ^7.6.7
-  json_serializable: ^6.7.1
+  json_annotation: ^4.8.1
+  path_provider: ^2.1.2
   sqflite: ^2.3.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  json_serializable: ^6.7.1
 
 flutter:
   uses-material-design: true

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/flutter_clean_architecture.iml" filepath="$PROJECT_DIR$/.idea/flutter_clean_architecture.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/flutter_clean_architecture_android.iml" filepath="$PROJECT_DIR$/android/flutter_clean_architecture_android.iml" />
     </modules>
   </component>
 </project>
