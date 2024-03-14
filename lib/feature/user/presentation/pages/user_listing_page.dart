@@ -73,6 +73,7 @@ class _UserListingPageState extends State<UserListingPage> {
                       children: [
                         Expanded(
                           child: ListView.builder(
+                            controller: _scrollController,
                             itemBuilder: (context, index) {
                               var user = users[index];
                               return UserDetailsTile(
