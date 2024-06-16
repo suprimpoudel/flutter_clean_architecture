@@ -9,9 +9,9 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<List<User>> getUsers(
-    int limit, {
+    int limit,
     bool? clear,
-  }) async {
+  ) async {
     if (clear == true) {
       _dataSource.clear();
     }

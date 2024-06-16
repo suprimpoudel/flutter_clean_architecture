@@ -1,25 +1,33 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_clean_architecture/common/utilities/constants/regex_constants.dart';
 import 'package:flutter_clean_architecture/common/utilities/helpers/regex_helper.dart';
 import 'package:flutter_clean_architecture/feature/user/data/models/user.dart';
+import 'package:flutter_clean_architecture/feature/user/domain/repositories/user_repository.dart';
 
-abstract class UserUseCases extends Equatable {
-  const UserUseCases();
+class UserUseCase {
+  final UserRepository _repository;
 
-  @override
-  List<Object?> get props => [];
-}
+  UserUseCase(this._repository);
 
-class ClearAndFetchUserCase extends UserUseCases {}
+  Future<List<User>> getUsers(
+    int limit, {
+    bool? clear,
+  }) async =>
+      await _repository.getUsers(limit, clear);
 
-class LoadMoreUserCase extends UserUseCases {}
+  Future<User> addUpdateUser(User user) async {
+    _validate(user);
+    return await _repository.addUpdateUser(user);
+  }
 
-class AddUpdateUserCase extends UserUseCases {
-  final User user;
+  Future<int?> deleteUser(User user) async {
+    if (user.id == null) {
+      throw Exception("User id is null");
+    }
 
-  const AddUpdateUserCase(this.user);
+    return await _repository.deleteUser(user);
+  }
 
-  void validate() {
+  void _validate(User user) {
     var firstName = user.firstName ?? "";
     var lastName = user.lastName ?? "";
     var email = user.emailAddress ?? "";
@@ -41,18 +49,6 @@ class AddUpdateUserCase extends UserUseCases {
       throw Exception("Invalid email");
     } else if (!validateRegex(phone, phoneNumberPattern)) {
       throw Exception("Invalid phone");
-    }
-  }
-}
-
-class DeleteUserCase extends UserUseCases {
-  final User user;
-
-  const DeleteUserCase(this.user);
-
-  void validate() {
-    if (user.id == null) {
-      throw Exception("User id is null");
     }
   }
 }

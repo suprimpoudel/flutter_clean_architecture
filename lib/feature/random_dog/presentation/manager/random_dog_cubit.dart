@@ -1,31 +1,24 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_clean_architecture/common/di/app_module.dart';
-import 'package:flutter_clean_architecture/feature/random_dog/domain/entities/random_dog_state.dart';
-import 'package:flutter_clean_architecture/feature/random_dog/domain/repositories/random_dog_repository.dart';
+import 'package:flutter_clean_architecture/feature/random_dog/domain/use_cases/random_dog_use_case.dart';
+import 'package:flutter_clean_architecture/feature/random_dog/presentation/manager/random_dog_state.dart';
 
 class RandomDogCubit extends Cubit<RandomDogState> {
-  late RandomDogRepository _repository;
+  final RandomDogUseCase _useCase;
 
-  RandomDogCubit() : super(RandomDogIdleState()) {
-    _repository = locator.get<RandomDogRepository>();
-  }
+  RandomDogCubit(this._useCase) : super(RandomDogIdleState());
 
   void getRandomDogImage() async {
     if (state is RandomDogLoadingState) {
       return;
     }
     emit(RandomDogLoadingState());
-    await _repository.getRandomDogImage().then((value) {
+    await _useCase.getRandomDogImage.then((value) {
       emit(
-        RandomDogFetchedState(
-          value,
-        ),
+        RandomDogFetchedState(value),
       );
     }).catchError((onError) {
       emit(
-        RandomDogErrorState(
-          onError,
-        ),
+        RandomDogErrorState(onError),
       );
     });
   }

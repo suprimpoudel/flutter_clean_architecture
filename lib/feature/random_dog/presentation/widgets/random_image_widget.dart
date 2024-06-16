@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_clean_architecture/feature/random_dog/domain/entities/random_dog_state.dart';
+import 'package:flutter_clean_architecture/feature/random_dog/presentation/manager/random_dog_state.dart';
 import 'package:flutter_clean_architecture/feature/random_dog/presentation/manager/random_dog_cubit.dart';
 
 class RandomImageWidget extends StatelessWidget {

@@ -20,10 +20,10 @@ void main() async {
           create: (_) => TabBloc(),
         ),
         RepositoryProvider<RandomDogCubit>(
-          create: (_) => RandomDogCubit(),
+          create: (_) => RandomDogCubit(locator()),
         ),
         RepositoryProvider<UserBloc>(
-          create: (_) => UserBloc(),
+          create: (_) => UserBloc(locator()),
         ),
       ],
       child: const MyApp(),

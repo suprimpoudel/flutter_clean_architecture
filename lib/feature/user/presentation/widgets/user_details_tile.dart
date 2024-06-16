@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/common/utilities/extensions/string_extensions.dart';
 import 'package:flutter_clean_architecture/feature/user/data/models/user.dart';
-import 'package:flutter_clean_architecture/feature/user/domain/use_cases/user_use_cases.dart';
+import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_event.dart';
 import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_bloc.dart';
 import 'package:flutter_clean_architecture/feature/user/presentation/widgets/user_add_update_dialog.dart';
 

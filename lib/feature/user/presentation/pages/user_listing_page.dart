@@ -4,8 +4,8 @@ import 'package:flutter_clean_architecture/common/presentation/widgets/loading_c
 import 'package:flutter_clean_architecture/common/presentation/widgets/pagination_loading_widget.dart';
 import 'package:flutter_clean_architecture/common/utilities/extensions/context_extension.dart';
 import 'package:flutter_clean_architecture/feature/user/data/models/user.dart';
-import 'package:flutter_clean_architecture/feature/user/domain/entities/user_state.dart';
-import 'package:flutter_clean_architecture/feature/user/domain/use_cases/user_use_cases.dart';
+import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_state.dart';
+import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_event.dart';
 import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_bloc.dart';
 import 'package:flutter_clean_architecture/feature/user/presentation/widgets/user_details_tile.dart';
 

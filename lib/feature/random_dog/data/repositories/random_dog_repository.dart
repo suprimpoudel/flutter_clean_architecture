@@ -7,9 +7,16 @@ class RandomDogRepositoryImpl implements RandomDogRepository {
   RandomDogRepositoryImpl(this._dataSource);
 
   @override
-  Future<String> getRandomDogImage() async {
+  Future<String> get getRandomDogImage async {
     try {
-      return await _dataSource.getRandomDogImage();
+      return await _dataSource.getRandomDogImage.then((value) {
+        var url = (value.message ?? "").trim();
+        if (url.isEmpty) {
+          throw Exception("Unable to get an image. Try again");
+        } else {
+          return url;
+        }
+      });
     } catch (_) {
       rethrow;
     }

@@ -7,15 +7,9 @@ class RandomDogDataSource {
 
   RandomDogDataSource(this._baseService);
 
-  Future<String> getRandomDogImage() async {
+  Future<RandomDog> get getRandomDogImage async {
     return await _baseService.getRequest(randomDogApiEndPoint).then((value) {
-      var randomDog = RandomDog.fromJson(value);
-      var url = (randomDog.message ?? "").trim();
-      if (url.isEmpty) {
-        throw Exception("Unable to get an image. Try again");
-      } else {
-        return url;
-      }
+      return RandomDog.fromJson(value);
     });
   }
 }

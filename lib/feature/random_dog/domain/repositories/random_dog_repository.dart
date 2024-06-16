@@ -1,3 +1,3 @@
 abstract class RandomDogRepository {
-  Future<String> getRandomDogImage();
+  Future<String> get getRandomDogImage;
 }

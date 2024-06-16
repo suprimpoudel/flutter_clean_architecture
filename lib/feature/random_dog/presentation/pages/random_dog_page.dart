@@ -28,9 +28,8 @@ class RandomDogPage extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: FilledButton(
-              onPressed: () {
-                context.read<RandomDogCubit>().getRandomDogImage();
-              },
+              onPressed: () =>
+                  context.read<RandomDogCubit>().getRandomDogImage(),
               child: const Text(
                 "Get Random Photo",
               ),

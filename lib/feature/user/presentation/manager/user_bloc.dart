@@ -1,21 +1,21 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_clean_architecture/common/di/app_module.dart';
-import 'package:flutter_clean_architecture/feature/user/domain/entities/user_state.dart';
-import 'package:flutter_clean_architecture/feature/user/domain/repositories/user_repository.dart';
-import 'package:flutter_clean_architecture/feature/user/domain/use_cases/user_use_cases.dart';
+import 'package:flutter_clean_architecture/feature/user/domain/use_cases/user_use_case.dart';
+import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_state.dart';
+import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_event.dart';
 
 class UserBloc extends Bloc<UserUseCases, UserState> {
   final _limit = 20;
 
   bool _noMoreData = false;
 
-  UserBloc() : super(UserIdleState()) {
-    var repository = locator.get<UserRepository>();
+  final UserUseCase _useCase;
+
+  UserBloc(this._useCase) : super(UserIdleState()) {
     on<ClearAndFetchUserCase>((event, emit) async {
       _noMoreData = false;
       emit(UserClearState());
       emit(UserListLoadingState());
-      await repository.getUsers(_limit, clear: true).then((value) {
+      await _useCase.getUsers(_limit, clear: true).then((value) {
         if (value.length < _limit) {
           _noMoreData = true;
         }
@@ -31,7 +31,7 @@ class UserBloc extends Bloc<UserUseCases, UserState> {
       }
 
       emit(UserPaginationLoadingState());
-      await repository
+      await _useCase
           .getUsers(
         _limit,
       )
@@ -47,8 +47,7 @@ class UserBloc extends Bloc<UserUseCases, UserState> {
     on<AddUpdateUserCase>((event, emit) async {
       emit(UserLoadingState());
       try {
-        event.validate();
-        await repository.addUpdateUser(event.user).then((value) {
+        await _useCase.addUpdateUser(event.user).then((value) {
           if (event.user.id == null) {
             emit(UserAddState(value));
           } else {
@@ -62,8 +61,7 @@ class UserBloc extends Bloc<UserUseCases, UserState> {
     on<DeleteUserCase>((event, emit) async {
       emit(UserListLoadingState());
       try {
-        event.validate();
-        await repository.deleteUser(event.user).then((value) {
+        await _useCase.deleteUser(event.user).then((value) {
           emit(UserDeleteState(value));
         });
       } catch (e) {
