@@ -18,8 +18,8 @@ class BaseService {
 
   Future<void> _throwNoInternetConnectionException() async {
     var connectivity = await Connectivity().checkConnectivity();
-    if (connectivity != ConnectivityResult.wifi &&
-        connectivity != ConnectivityResult.mobile) {
+    if (!connectivity.contains(ConnectivityResult.wifi) ||
+        !connectivity.contains(ConnectivityResult.mobile)) {
       throw Exception(noInternet);
     }
   }
