@@ -1,13 +1,14 @@
+import 'package:flutter_clean_architecture/common/data/models/base_mapper.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
 @JsonSerializable()
-class User {
+class User extends BaseMapper {
   final int? id;
   final String? firstName, lastName, emailAddress, phoneNumber;
 
-  User({
+  const User({
     this.id,
     this.firstName,
     this.lastName,
@@ -33,5 +34,15 @@ class User {
     );
   }
 
+  @override
   Map<String, dynamic> toMap() => _$UserToJson(this);
+
+  @override
+  List<Object?> get props => [
+        id,
+        firstName,
+        lastName,
+        emailAddress,
+        phoneNumber,
+      ];
 }

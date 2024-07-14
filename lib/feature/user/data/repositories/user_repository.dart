@@ -39,4 +39,13 @@ class UserRepositoryImpl implements UserRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<User> getUserById(int? userId) async {
+    try {
+      return await _dataSource.getUserById(userId);
+    } catch (_) {
+      rethrow;
+    }
+  }
 }

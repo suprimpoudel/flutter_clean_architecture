@@ -3,7 +3,7 @@ import 'package:flutter_clean_architecture/feature/user/domain/use_cases/user_us
 import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_state.dart';
 import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_event.dart';
 
-class UserBloc extends Bloc<UserUseCases, UserState> {
+class UserBloc extends Bloc<UserEvent, UserState> {
   final _limit = 20;
 
   bool _noMoreData = false;
@@ -11,7 +11,7 @@ class UserBloc extends Bloc<UserUseCases, UserState> {
   final UserUseCase _useCase;
 
   UserBloc(this._useCase) : super(UserIdleState()) {
-    on<ClearAndFetchUserCase>((event, emit) async {
+    on<ClearAndFetchEvent>((event, emit) async {
       _noMoreData = false;
       emit(UserClearState());
       emit(UserListLoadingState());
@@ -24,7 +24,7 @@ class UserBloc extends Bloc<UserUseCases, UserState> {
         emit(UserListErrorState(onError));
       });
     });
-    on<LoadMoreUserCase>((event, emit) async {
+    on<LoadMoreEvent>((event, emit) async {
       if (_noMoreData) {
         emit(UserIdleState());
         return;
@@ -44,7 +44,7 @@ class UserBloc extends Bloc<UserUseCases, UserState> {
         emit(UserListErrorState(onError));
       });
     });
-    on<AddUpdateUserCase>((event, emit) async {
+    on<AddUpdateEvent>((event, emit) async {
       emit(UserLoadingState());
       try {
         await _useCase.addUpdateUser(event.user).then((value) {
@@ -58,7 +58,7 @@ class UserBloc extends Bloc<UserUseCases, UserState> {
         emit(UserErrorState(e));
       }
     });
-    on<DeleteUserCase>((event, emit) async {
+    on<DeleteUserEvent>((event, emit) async {
       emit(UserListLoadingState());
       try {
         await _useCase.deleteUser(event.user).then((value) {

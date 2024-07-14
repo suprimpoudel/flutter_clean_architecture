@@ -1,25 +1,25 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_clean_architecture/feature/user/data/models/user.dart';
 
-abstract class UserUseCases extends Equatable {
-  const UserUseCases();
+abstract class UserEvent extends Equatable {
+  const UserEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-class ClearAndFetchUserCase extends UserUseCases {}
+class ClearAndFetchEvent extends UserEvent {}
 
-class LoadMoreUserCase extends UserUseCases {}
+class LoadMoreEvent extends UserEvent {}
 
-class AddUpdateUserCase extends UserUseCases {
+class AddUpdateEvent extends UserEvent {
   final User user;
 
-  const AddUpdateUserCase(this.user);
+  const AddUpdateEvent(this.user);
 }
 
-class DeleteUserCase extends UserUseCases {
+class DeleteUserEvent extends UserEvent {
   final User user;
 
-  const DeleteUserCase(this.user);
+  const DeleteUserEvent(this.user);
 }

@@ -4,9 +4,9 @@ import 'package:flutter_clean_architecture/common/presentation/widgets/loading_c
 import 'package:flutter_clean_architecture/common/presentation/widgets/pagination_loading_widget.dart';
 import 'package:flutter_clean_architecture/common/utilities/extensions/context_extension.dart';
 import 'package:flutter_clean_architecture/feature/user/data/models/user.dart';
-import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_state.dart';
-import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_event.dart';
 import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_bloc.dart';
+import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_event.dart';
+import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_state.dart';
 import 'package:flutter_clean_architecture/feature/user/presentation/widgets/user_details_tile.dart';
 
 class UserListingPage extends StatefulWidget {
@@ -21,11 +21,11 @@ class _UserListingPageState extends State<UserListingPage> {
 
   @override
   void initState() {
-    context.read<UserBloc>().add(ClearAndFetchUserCase());
+    context.read<UserBloc>().add(ClearAndFetchEvent());
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        context.read<UserBloc>().add(LoadMoreUserCase());
+        context.read<UserBloc>().add(LoadMoreEvent());
       }
     });
     super.initState();

@@ -22,7 +22,7 @@ class UserDetailsTile extends StatelessWidget {
       child: Dismissible(
         key: Key(index.toString()),
         onDismissed: (direction) {
-          context.read<UserBloc>().add(DeleteUserCase(user));
+          context.read<UserBloc>().add(DeleteUserEvent(user));
         },
         child: ListTile(
           onTap: () async {

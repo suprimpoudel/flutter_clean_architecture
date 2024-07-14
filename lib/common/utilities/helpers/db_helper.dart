@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter_clean_architecture/common/data/models/base_mapper.dart';
 import 'package:flutter_clean_architecture/common/utilities/constants/database_constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -62,8 +63,8 @@ class DBHelper {
     }
   }
 
-  Future<List<Map<String, dynamic>>?> queryGet({
-    required String tableName,
+  Future<List<Map<String, dynamic>>> _queryGet(
+    String tableName, {
     String? orderBy,
     String? where,
     int? limit,
@@ -136,6 +137,64 @@ class DBHelper {
         );
       }
     });
+  }
+
+  //Base Methods
+  Future<List<T>> getList<T>(
+    String tableName,
+    T Function(Map<String, dynamic>) fromMap, {
+    String? orderBy,
+    String? where,
+    int? limit,
+    int? offset,
+    List<dynamic>? whereArgs,
+  }) async {
+    List<T> data = [];
+    var dynamicMapList = await _queryGet(
+      tableName,
+      orderBy: orderBy ?? '$id DESC',
+      where: where,
+      whereArgs: whereArgs,
+      offset: offset,
+      limit: limit,
+    );
+
+    if (dynamicMapList.isNotEmpty) {
+      data.addAll(dynamicMapList.map((map) => fromMap(map)).toList());
+    }
+
+    return data;
+  }
+
+  Future<T> getSingle<T>(
+    String tableName,
+    Function(Map<String, dynamic>) fromMap,
+    String where,
+    List<dynamic> whereArgs, {
+    String? errorMessage,
+  }) async {
+    var dynamicMapList = await _queryGet(
+      tableName,
+      where: where,
+      whereArgs: whereArgs,
+      limit: 1,
+    );
+
+    if (dynamicMapList.isNotEmpty) {
+      return fromMap(dynamicMapList.first);
+    } else {
+      throw Exception(errorMessage ?? "${T.runtimeType} not found");
+    }
+  }
+
+  Future<int?> insertEntity(String tableName, BaseMapper model, {ConflictAlgorithm? conflictAlgorithm,}) async {
+    var db = await getDatabaseObject;
+
+    return await db.insert(
+      tableName,
+      model.toMap(),
+      conflictAlgorithm: conflictAlgorithm ?? ConflictAlgorithm.replace,
+    );
   }
 
   Future<void> closeDatabase() async {

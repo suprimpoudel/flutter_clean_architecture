@@ -142,6 +142,6 @@ class _UserAddUpdateDialogState extends State<UserAddUpdateDialog> {
       phoneNumber: _phoneNumberController.text.trim(),
     );
 
-    context.read<UserBloc>().add(AddUpdateUserCase(user));
+    context.read<UserBloc>().add(AddUpdateEvent(user));
   }
 }

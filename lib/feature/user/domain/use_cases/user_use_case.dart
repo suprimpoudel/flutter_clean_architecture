@@ -27,6 +27,14 @@ class UserUseCase {
     return await _repository.deleteUser(user);
   }
 
+  Future<User> getUserById(int? userId) async {
+    if (userId == null) {
+      throw Exception("User id is null");
+    }
+
+    return await _repository.getUserById(userId);
+  }
+
   void _validate(User user) {
     var firstName = user.firstName ?? "";
     var lastName = user.lastName ?? "";
