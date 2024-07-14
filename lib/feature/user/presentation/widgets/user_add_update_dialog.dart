@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/common/presentation/widgets/custom_labelled_text_field.dart';
-import 'package:flutter_clean_architecture/common/presentation/widgets/platform_alert_dialog.dart';
 import 'package:flutter_clean_architecture/common/utilities/extensions/context_extension.dart';
 import 'package:flutter_clean_architecture/feature/user/data/models/user.dart';
 import 'package:flutter_clean_architecture/feature/user/presentation/manager/user_state.dart';
@@ -46,11 +45,8 @@ class _UserAddUpdateDialogState extends State<UserAddUpdateDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    return PlatformAlertDialog(
+    var height = MediaQuery.of(context).size.height;
+    return AlertDialog(
       title: Text(
         widget.user?.id == null ? "Add User" : "Update User",
       ),
@@ -59,7 +55,7 @@ class _UserAddUpdateDialogState extends State<UserAddUpdateDialog> {
           maxHeight: height * 0.5,
         ),
         child:
-        BlocConsumer<UserBloc, UserState>(listener: (context, state) async {
+            BlocConsumer<UserBloc, UserState>(listener: (context, state) async {
           if (state is UserErrorState) {
             context.handleException(state.error);
           } else if (state is UserAddState || state is UserUpdateState) {
@@ -101,14 +97,14 @@ class _UserAddUpdateDialogState extends State<UserAddUpdateDialog> {
                   height: 10.0,
                 ),
                 CustomLabelledTextField(
-                    length: 10,
-                    label: "Phone Number",
-                    hintText: "Enter phone number",
-                    controller: _phoneNumberController,
-                    inputType: TextInputType.phone,
-                    textInputAction: TextInputAction.go,
-                    isDigitOnlyWithNoDecimal: true,
-                    onFieldSubmitted: (value) => _addUpdateUser(),
+                  length: 10,
+                  label: "Phone Number",
+                  hintText: "Enter phone number",
+                  controller: _phoneNumberController,
+                  inputType: TextInputType.phone,
+                  textInputAction: TextInputAction.go,
+                  isDigitOnlyWithNoDecimal: true,
+                  onFieldSubmitted: (value) => _addUpdateUser(),
                 ),
               ],
             ),
@@ -123,10 +119,7 @@ class _UserAddUpdateDialogState extends State<UserAddUpdateDialog> {
           child: Text(
             "Cancel",
             style: TextStyle(
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .error,
+              color: Theme.of(context).colorScheme.error,
             ),
           ),
         ),
