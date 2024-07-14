@@ -19,9 +19,6 @@ void main() async {
         RepositoryProvider<TabBloc>(
           create: (_) => TabBloc(),
         ),
-        RepositoryProvider<RandomDogCubit>(
-          create: (_) => RandomDogCubit(locator()),
-        ),
         RepositoryProvider<UserBloc>(
           create: (_) => UserBloc(locator()),
         ),

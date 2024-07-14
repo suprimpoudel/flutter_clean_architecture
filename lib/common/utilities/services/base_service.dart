@@ -33,7 +33,6 @@ class BaseService {
         // "Authorization": "Bearer [accessToken]"
       };
 
-      await _throwNoInternetConnectionException();
       var dio = await _getDioObject;
 
       var response = await dio.get(
