@@ -45,72 +45,75 @@ class _UserAddUpdateDialogState extends State<UserAddUpdateDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
     return AlertDialog(
       title: Text(
         widget.user?.id == null ? "Add User" : "Update User",
       ),
-      content: Container(
-        constraints: BoxConstraints(
-          maxHeight: height * 0.5,
-        ),
-        child:
-            BlocConsumer<UserBloc, UserState>(listener: (context, state) async {
-          if (state is UserErrorState) {
-            context.handleException(state.error);
-          } else if (state is UserAddState || state is UserUpdateState) {
-            Navigator.pop(context);
-          }
-        }, builder: (context, state) {
-          return SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CustomLabelledTextField(
-                  label: "First Name",
-                  hintText: "Enter first name",
-                  inputType: TextInputType.name,
-                  textInputAction: TextInputAction.next,
-                  controller: _firstNameController,
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                CustomLabelledTextField(
-                  label: "Last Name",
-                  hintText: "Enter last name",
-                  inputType: TextInputType.name,
-                  textInputAction: TextInputAction.next,
-                  controller: _lastNameController,
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                CustomLabelledTextField(
-                  label: "Email",
-                  hintText: "Enter email address",
-                  inputType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  controller: _emailController,
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                CustomLabelledTextField(
-                  length: 10,
-                  label: "Phone Number",
-                  hintText: "Enter phone number",
-                  controller: _phoneNumberController,
-                  inputType: TextInputType.phone,
-                  textInputAction: TextInputAction.go,
-                  isDigitOnlyWithNoDecimal: true,
-                  onFieldSubmitted: (value) => _addUpdateUser(),
-                ),
-              ],
-            ),
-          );
-        }),
-      ),
+      content: Builder(builder: (context) {
+        var height = MediaQuery.of(context).size.height;
+
+        return Container(
+          constraints: BoxConstraints(
+            maxHeight: height * 0.5,
+          ),
+          child: BlocConsumer<UserBloc, UserState>(
+              listener: (context, state) async {
+            if (state is UserErrorState) {
+              context.handleException(state.error);
+            } else if (state is UserAddState || state is UserUpdateState) {
+              Navigator.pop(context);
+            }
+          }, builder: (context, state) {
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomLabelledTextField(
+                    label: "First Name",
+                    hintText: "Enter first name",
+                    inputType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    controller: _firstNameController,
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  CustomLabelledTextField(
+                    label: "Last Name",
+                    hintText: "Enter last name",
+                    inputType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    controller: _lastNameController,
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  CustomLabelledTextField(
+                    label: "Email",
+                    hintText: "Enter email address",
+                    inputType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    controller: _emailController,
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  CustomLabelledTextField(
+                    length: 10,
+                    label: "Phone Number",
+                    hintText: "Enter phone number",
+                    controller: _phoneNumberController,
+                    inputType: TextInputType.phone,
+                    textInputAction: TextInputAction.go,
+                    isDigitOnlyWithNoDecimal: true,
+                    onFieldSubmitted: (value) => _addUpdateUser(),
+                  ),
+                ],
+              ),
+            );
+          }),
+        );
+      }),
       actions: [
         TextButton(
           onPressed: () {

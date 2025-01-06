@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class TabToggleUseCase extends Equatable {
+abstract class TabToggleUseCase extends Equatable {
   const TabToggleUseCase();
 
   @override

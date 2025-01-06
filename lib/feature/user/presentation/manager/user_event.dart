@@ -13,13 +13,27 @@ class ClearAndFetchEvent extends UserEvent {}
 class LoadMoreEvent extends UserEvent {}
 
 class AddUpdateEvent extends UserEvent {
-  final User user;
+  final User _user;
 
-  const AddUpdateEvent(this.user);
+  User get user => _user;
+
+  const AddUpdateEvent(this._user);
+
+  @override
+  List<Object?> get props => [
+    _user,
+  ];
 }
 
 class DeleteUserEvent extends UserEvent {
-  final User user;
+  final User _user;
 
-  const DeleteUserEvent(this.user);
+  User get user => _user;
+
+  const DeleteUserEvent(this._user);
+
+  @override
+  List<Object?> get props => [
+    _user,
+  ];
 }

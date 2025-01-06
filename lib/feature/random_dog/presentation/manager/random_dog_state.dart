@@ -12,13 +12,27 @@ class RandomDogIdleState extends RandomDogState {}
 class RandomDogLoadingState extends RandomDogState {}
 
 class RandomDogErrorState extends RandomDogState {
-  final dynamic error;
+  final dynamic _error;
 
-  const RandomDogErrorState(this.error);
+  dynamic get error => _error;
+
+  const RandomDogErrorState(this._error);
+
+  @override
+  List<Object?> get props => [
+        _error,
+      ];
 }
 
 class RandomDogFetchedState extends RandomDogState {
-  final String randomDog;
+  final String _randomDog;
 
-  const RandomDogFetchedState(this.randomDog);
+  String get randomDog => _randomDog;
+
+  const RandomDogFetchedState(this._randomDog);
+
+  @override
+  List<Object?> get props => [
+        _randomDog,
+      ];
 }

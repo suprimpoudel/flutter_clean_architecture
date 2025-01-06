@@ -17,9 +17,7 @@ class DBHelper {
     return _databaseHelper!;
   }
 
-  Future<Database> get getDatabaseObject async {
-    return _database ?? await init();
-  }
+  Future<Database> get getDatabaseObject async => _database ?? await init();
 
   Future<Database> init({Database? db}) async {
     if (db != null) {
@@ -187,7 +185,11 @@ class DBHelper {
     }
   }
 
-  Future<int?> insertEntity(String tableName, BaseMapper model, {ConflictAlgorithm? conflictAlgorithm,}) async {
+  Future<int?> insertEntity(
+    String tableName,
+    BaseMapper model, {
+    ConflictAlgorithm? conflictAlgorithm,
+  }) async {
     var db = await getDatabaseObject;
 
     return await db.insert(

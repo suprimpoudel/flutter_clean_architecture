@@ -19,37 +19,79 @@ class UserPaginationLoadingState extends UserState {}
 class UserClearState extends UserState {}
 
 class UserDataFetchedState extends UserState {
-  final List<User> users;
+  final List<User> _users;
 
-  const UserDataFetchedState(this.users);
+  List<User> get users => _users;
+
+  const UserDataFetchedState(this._users);
+
+  @override
+  List<Object?> get props => [
+        _users,
+      ];
 }
 
 class UserAddState extends UserState {
-  final User user;
+  final User _user;
 
-  const UserAddState(this.user);
+  User get user => _user;
+
+  const UserAddState(this._user);
+
+  @override
+  List<Object?> get props => [
+        _user,
+      ];
 }
 
 class UserUpdateState extends UserState {
-  final User user;
+  final User _user;
 
-  const UserUpdateState(this.user);
+  User get user => _user;
+
+  const UserUpdateState(this._user);
+
+  @override
+  List<Object?> get props => [
+        _user,
+      ];
 }
 
 class UserDeleteState extends UserState {
-  final int? id;
+  final int? _id;
 
-  const UserDeleteState(this.id);
+  int? get id => _id;
+
+  const UserDeleteState(this._id);
+
+  @override
+  List<Object?> get props => [
+        _id,
+      ];
 }
 
 class UserListErrorState extends UserState {
-  final dynamic error;
+  final dynamic _error;
 
-  const UserListErrorState(this.error);
+  dynamic get error => _error;
+
+  const UserListErrorState(this._error);
+
+  @override
+  List<Object?> get props => [
+        _error,
+      ];
 }
 
 class UserErrorState extends UserState {
-  final dynamic error;
+  final dynamic _error;
 
-  const UserErrorState(this.error);
+  dynamic get error => _error;
+
+  const UserErrorState(this._error);
+
+  @override
+  List<Object?> get props => [
+        _error,
+      ];
 }

@@ -1,7 +1,3 @@
-import 'package:equatable/equatable.dart';
-
-abstract class BaseMapper extends Equatable{
-  const BaseMapper();
-
+mixin BaseMapper {
   Map<String, dynamic> toMap();
 }

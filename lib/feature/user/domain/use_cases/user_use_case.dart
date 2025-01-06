@@ -8,23 +8,20 @@ class UserUseCase {
 
   UserUseCase(this._repository);
 
-  Future<List<User>> getUsers(
-    int limit, {
-    bool? clear,
-  }) async =>
-      await _repository.getUsers(limit, clear);
+  Future<List<User>> getUsers(int limit, int offset) async =>
+      await _repository.getUsers(limit, offset);
 
   Future<User> addUpdateUser(User user) async {
     _validate(user);
     return await _repository.addUpdateUser(user);
   }
 
-  Future<int?> deleteUser(User user) async {
+  Future<void> deleteUser(User user) async {
     if (user.id == null) {
       throw Exception("User id is null");
     }
 
-    return await _repository.deleteUser(user);
+    await _repository.deleteUser(user);
   }
 
   Future<User> getUserById(int? userId) async {

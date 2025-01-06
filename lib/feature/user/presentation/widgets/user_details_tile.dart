@@ -7,12 +7,10 @@ import 'package:flutter_clean_architecture/feature/user/presentation/manager/use
 import 'package:flutter_clean_architecture/feature/user/presentation/widgets/user_add_update_dialog.dart';
 
 class UserDetailsTile extends StatelessWidget {
-  final int index;
   final User user;
 
   const UserDetailsTile({
     super.key,
-    required this.index,
     required this.user,
   });
 
@@ -20,10 +18,9 @@ class UserDetailsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Dismissible(
-        key: Key(index.toString()),
-        onDismissed: (direction) {
-          context.read<UserBloc>().add(DeleteUserEvent(user));
-        },
+        key: ValueKey("User ${user.id}"),
+        onDismissed: (direction) =>
+            context.read<UserBloc>().add(DeleteUserEvent(user)),
         child: ListTile(
           onTap: () async {
             return showAdaptiveDialog(

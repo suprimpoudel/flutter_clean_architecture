@@ -10,42 +10,23 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<List<User>> getUsers(
     int limit,
-    bool? clear,
-  ) async {
-    if (clear == true) {
-      _dataSource.clear();
-    }
-    try {
-      return await _dataSource.getUsers(limit);
-    } catch (_) {
-      rethrow;
-    }
-  }
+    int offset,
+  ) async =>
+      await _dataSource.getUsers(limit, offset);
 
   @override
   Future<User> addUpdateUser(User user) async {
-    try {
-      return await _dataSource.addUpdateUser(user);
-    } catch (_) {
-      rethrow;
-    }
+    var result = await _dataSource.addUpdateUser(user);
+    return user.copyWith(
+      id: result,
+    );
   }
 
   @override
-  Future<int?> deleteUser(User user) async {
-    try {
-      return await _dataSource.deleteUser(user);
-    } catch (_) {
-      rethrow;
-    }
-  }
+  Future<void> deleteUser(User user) async =>
+      await _dataSource.deleteUser(user);
 
   @override
-  Future<User> getUserById(int? userId) async {
-    try {
-      return await _dataSource.getUserById(userId);
-    } catch (_) {
-      rethrow;
-    }
-  }
+  Future<User> getUserById(int? userId) async =>
+      await _dataSource.getUserById(userId);
 }

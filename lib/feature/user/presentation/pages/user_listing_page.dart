@@ -32,6 +32,12 @@ class _UserListingPageState extends State<UserListingPage> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<User> users = [];
 
@@ -61,41 +67,40 @@ class _UserListingPageState extends State<UserListingPage> {
         children: [
           state is UserListLoadingState
               ? const Center(
-                  child: CircularProgressIndicator(),
-                )
+            child: CircularProgressIndicator(),
+          )
               : users.isEmpty
-                  ? const Center(
-                      child: Text(
-                        "No Users Found, Click on '+' icon to add one",
-                      ),
-                    )
-                  : Column(
-                      children: [
-                        Expanded(
-                          child: ListView.builder(
-                            controller: _scrollController,
-                            itemBuilder: (context, index) {
-                              var user = users[index];
-                              return UserDetailsTile(
-                                index: index,
-                                user: user,
-                              );
-                            },
-                            itemCount: users.length,
-                          ),
-                        ),
-                        if (state is UserPaginationLoadingState)
-                          const SizedBox(
-                            height: 15.0,
-                          ),
-                        if (state is UserPaginationLoadingState)
-                          const PaginationLoadingWidget(),
-                        if (state is UserPaginationLoadingState)
-                          const SizedBox(
-                            height: 15.0,
-                          ),
-                      ],
-                    ),
+              ? const Center(
+            child: Text(
+              "No Users Found, Click on '+' icon to add one",
+            ),
+          )
+              : Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemBuilder: (context, index) {
+                    var user = users[index];
+                    return UserDetailsTile(
+                      user: user,
+                    );
+                  },
+                  itemCount: users.length,
+                ),
+              ),
+              if (state is UserPaginationLoadingState)
+                const SizedBox(
+                  height: 15.0,
+                ),
+              if (state is UserPaginationLoadingState)
+                const PaginationLoadingWidget(),
+              if (state is UserPaginationLoadingState)
+                const SizedBox(
+                  height: 15.0,
+                ),
+            ],
+          ),
           if (state is UserLoadingState) const LoadingCircularProgress(),
         ],
       );

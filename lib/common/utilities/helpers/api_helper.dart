@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_architecture/common/utilities/constants/error_constants.dart';
 
-class BaseService {
+class ApiHelper {
   Future<Dio> get _getDioObject async {
     return Dio(BaseOptions(
       baseUrl: "https://dog.ceo/",

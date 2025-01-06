@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_clean_architecture/common/data/models/base_mapper.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
 @JsonSerializable()
-class User extends BaseMapper {
+class User extends Equatable with BaseMapper {
   final int? id;
   final String? firstName, lastName, emailAddress, phoneNumber;
 

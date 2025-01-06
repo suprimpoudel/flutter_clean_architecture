@@ -1,5 +1,5 @@
+import 'package:flutter_clean_architecture/common/utilities/helpers/api_helper.dart';
 import 'package:flutter_clean_architecture/common/utilities/helpers/db_helper.dart';
-import 'package:flutter_clean_architecture/common/utilities/services/base_service.dart';
 import 'package:flutter_clean_architecture/feature/random_dog/data/data_sources/random_dog_data_source.dart';
 import 'package:flutter_clean_architecture/feature/random_dog/data/repositories/random_dog_repository.dart';
 import 'package:flutter_clean_architecture/feature/random_dog/domain/repositories/random_dog_repository.dart';
@@ -18,28 +18,34 @@ Future<void> appModuleSetup() async {
   var dbHelper = DBHelper();
   await dbHelper.init();
 
-  var baseService = BaseService();
+  var apiHelper = ApiHelper();
 
   locator.registerLazySingleton<DBHelper>(
     () => dbHelper,
   );
-  locator.registerLazySingleton<RandomDogRepository>(
-    () => RandomDogRepositoryImpl(
-      RandomDogDataSource(
-        baseService,
-      ),
-    ),
-  );
-  locator.registerFactory(() => RandomDogUseCase(locator()));
-  locator.registerFactory(() => RandomDogCubit(locator()));
 
-  locator.registerLazySingleton<UserRepository>(
-    () => UserRepositoryImpl(
-      UserDataSource(
-        dbHelper,
-      ),
+  //Random Dog
+  var randomDogRepo = RandomDogRepositoryImpl(
+    RandomDogDataSource(
+      apiHelper,
     ),
   );
-  locator.registerFactory(() => UserUseCase(locator()));
-  locator.registerFactory(() => UserBloc(locator()));
+  var randomDogUseCase = RandomDogUseCase(randomDogRepo);
+
+  locator.registerLazySingleton<RandomDogRepository>(() => randomDogRepo);
+  locator.registerFactory<RandomDogUseCase>(() => randomDogUseCase);
+  locator
+      .registerFactory<RandomDogCubit>(() => RandomDogCubit(randomDogUseCase));
+
+  //User
+  var userRepo = UserRepositoryImpl(
+    UserDataSource(
+      dbHelper,
+    ),
+  );
+  var userUseCase = UserUseCase(userRepo);
+
+  locator.registerLazySingleton<UserRepository>(() => userRepo);
+  locator.registerFactory<UserUseCase>(() => userUseCase);
+  locator.registerFactory<UserBloc>(() => UserBloc(userUseCase));
 }

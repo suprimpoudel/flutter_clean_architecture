@@ -1,3 +1,3 @@
-abstract class RandomDogRepository {
+mixin RandomDogRepository {
   Future<String> get getRandomDogImage;
 }

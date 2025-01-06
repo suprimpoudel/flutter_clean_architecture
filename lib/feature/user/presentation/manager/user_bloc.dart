@@ -5,6 +5,7 @@ import 'package:flutter_clean_architecture/feature/user/presentation/manager/use
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final _limit = 20;
+  int _offset = 0;
 
   bool _noMoreData = false;
 
@@ -12,17 +13,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   UserBloc(this._useCase) : super(UserIdleState()) {
     on<ClearAndFetchEvent>((event, emit) async {
-      _noMoreData = false;
-      emit(UserClearState());
-      emit(UserListLoadingState());
-      await _useCase.getUsers(_limit, clear: true).then((value) {
-        if (value.length < _limit) {
-          _noMoreData = true;
-        }
-        emit(UserDataFetchedState(value));
-      }).catchError((onError) {
-        emit(UserListErrorState(onError));
-      });
+      try {
+        _noMoreData = false;
+        _offset = 0;
+        emit(UserClearState());
+        await Future.delayed(Duration(seconds: 0));
+        emit(UserListLoadingState());
+        await _fetchUsers(emit);
+      } catch (e) {
+        emit(UserListErrorState(e));
+        emit(UserIdleState());
+      }
     });
     on<LoadMoreEvent>((event, emit) async {
       if (_noMoreData) {
@@ -30,43 +31,44 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         return;
       }
 
-      emit(UserPaginationLoadingState());
-      await _useCase
-          .getUsers(
-        _limit,
-      )
-          .then((value) {
-        if (value.length < _limit) {
-          _noMoreData = true;
-        }
-        emit(UserDataFetchedState(value));
-      }).catchError((onError) {
-        emit(UserListErrorState(onError));
-      });
+      try {
+        emit(UserPaginationLoadingState());
+        await _fetchUsers(emit);
+      } catch (e) {
+        emit(UserListErrorState(e));
+        emit(UserIdleState());
+      }
     });
     on<AddUpdateEvent>((event, emit) async {
       emit(UserLoadingState());
       try {
-        await _useCase.addUpdateUser(event.user).then((value) {
-          if (event.user.id == null) {
-            emit(UserAddState(value));
-          } else {
-            emit(UserUpdateState(value));
-          }
-        });
+        var user = await _useCase.addUpdateUser(event.user);
+        if (event.user.id == null) {
+          emit(UserAddState(user));
+        } else {
+          emit(UserUpdateState(user));
+        }
       } catch (e) {
         emit(UserErrorState(e));
+        emit(UserIdleState());
       }
     });
     on<DeleteUserEvent>((event, emit) async {
       emit(UserListLoadingState());
       try {
-        await _useCase.deleteUser(event.user).then((value) {
-          emit(UserDeleteState(value));
-        });
+        await _useCase.deleteUser(event.user);
+        emit(UserDeleteState(event.user.id));
       } catch (e) {
         emit(UserListErrorState(e));
+        emit(UserIdleState());
       }
     });
+  }
+
+  Future<void> _fetchUsers(Emitter<UserState> emit) async {
+    var users = await _useCase.getUsers(_limit, _offset);
+    _offset = _offset + _limit;
+    _noMoreData = users.length < _limit;
+    emit(UserDataFetchedState(users));
   }
 }

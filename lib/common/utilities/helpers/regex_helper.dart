@@ -1,10 +1,3 @@
-bool validateRegex(String textToMatch, String regexPattern,
-    {bool? caseSensitive}) {
-  RegExp nameRegex =
-      RegExp(regexPattern, caseSensitive: caseSensitive ?? false);
-  if (!nameRegex.hasMatch(textToMatch)) {
-    return false;
-  } else {
-    return true;
-  }
+bool validateRegex(String textToMatch, String regexPattern, {bool caseSensitive = false}) {
+  return RegExp(regexPattern, caseSensitive: caseSensitive).hasMatch(textToMatch);
 }
