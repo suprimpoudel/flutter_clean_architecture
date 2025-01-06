@@ -17,7 +17,7 @@ class RandomDogPage extends StatelessWidget {
         var height = MediaQuery.of(context).size.height;
 
         return PopScope(
-          onPopInvoked: (popInvoked) {
+          onPopInvokedWithResult: (popInvoked, result) {
             if (popInvoked) {
               context.read<RandomDogCubit>().close();
             }

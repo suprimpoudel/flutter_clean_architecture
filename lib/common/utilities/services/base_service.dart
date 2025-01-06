@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_architecture/common/utilities/constants/error_constants.dart';
 
@@ -15,14 +14,6 @@ class BaseService {
   }
 
   final int _timeOut = 20;
-
-  Future<void> _throwNoInternetConnectionException() async {
-    var connectivity = await Connectivity().checkConnectivity();
-    if (!connectivity.contains(ConnectivityResult.wifi) ||
-        !connectivity.contains(ConnectivityResult.mobile)) {
-      throw Exception(noInternet);
-    }
-  }
 
   Future<Map<String, dynamic>> getRequest(String url) async {
     try {

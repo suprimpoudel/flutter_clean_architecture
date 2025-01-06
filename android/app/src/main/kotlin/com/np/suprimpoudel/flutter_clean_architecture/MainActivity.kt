@@ -1,4 +1,4 @@
-package com.np.suprimpoudel.flutter_clean_architecture
+package com.example.flutter_clean_architecture
 
 import io.flutter.embedding.android.FlutterActivity
 
